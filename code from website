@@ -1,0 +1,37 @@
+http://jumbospot17.blogspot.com/2018/12/change-stm32mmdvmhs-to-usb-mode-work.html
+
+default you buy this rf board is gpio mode for raspberry,for now you can change to
+usb mode for win7 /ubuntu work with blue dv or mmdvmhost +mmdvm .ini file
+
+upgrade usb fw need raspberry and login in ssh mode in pi-star system
+working for USB mode :
+
+sudo service mmdvmhost stop
+sudo pkill MMDVMHost
+cd /tmp
+sudo rm gpio.bin
+sudo wget http://www.taozhengbo.com/usb.bin
+sudo chmod 664 usb.bin
+sleep 2
+sudo pkill MMDVMHost
+sudo pkill mmdvmhost.service
+sudo stm32flash -v -w usb.bin -g 0x0 -R -i 20,-21,21:-20,21 /dev/ttyAMA0
+echo "Rebooting Pi"
+sleep 30
+sudo reboot
+working for GPIO mode :
+
+sudo service mmdvmhost stop
+sudo pkill MMDVMHost
+cd /tmp
+sudo rm gpio.bin
+sudo wget http://www.taozhengbo.com/gpio.bin
+sudo chmod 664 gpio.bin
+sleep 2
+sudo pkill MMDVMHost
+sudo pkill mmdvmhost.service
+sudo stm32flash -v -w gpio.bin -g 0x0 -R -i 20,-21,21:-20,21 /dev/ttyAMA0
+echo "Rebooting Pi"
+sleep 30
+sudo reboot
+
